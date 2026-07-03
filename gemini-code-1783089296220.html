@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ms Lê Hằng English - IELTS READING MOCK TEST</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700;800&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-pink: #FFD1DC;
+            --deep-purple: #8854C0;
+            --soft-yellow: #FDCB6E;
+            --mint-green: #00C9A7;
+            --wrong-red: #FF4757;
+            --correct-green: #00D26A;
+            --text-dark: #2D3436;
+        }
+
+        * { box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
+
+        body {
+            margin: 0; padding: 0;
+            background: linear-gradient(-45deg, #FFD1DC, #E0C3FC, #FFF0F5, #FBF8CC);
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+            height: 100vh; display: flex; flex-direction: column; overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; opacity: 0.35; pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='30' font-size='22'%3E🌿%3C/text%3E%3Ctext x='50' y='70' font-size='22'%3E⭐%3C/text%3E%3Ctext x='60' y='20' font-size='18'%3E☁️%3C/text%3E%3C/svg%3E");
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 30px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 6px 20px rgba(136, 84, 192, 0.15); z-index: 10;
+            border-bottom: 3px solid var(--primary-pink);
+        }
+
+        .brand-info h1 { margin: 0; font-size: 1.1rem; color: var(--deep-purple); font-family: 'Nunito'; font-weight: 900; }
+        .brand-info span { font-size: 0.8rem; font-weight: 700; color: #666; }
+
+        .timer-container {
+            display: flex; align-items: center; gap: 12px; background: white;
+            padding: 6px 22px; border-radius: 50px; border: 3px solid var(--deep-purple);
+            box-shadow: 0 4px 0 var(--deep-purple);
+        }
+        #timer { font-size: 1.4rem; font-weight: 900; color: var(--deep-purple); min-width: 75px; text-align: center; }
+
+        .btn-gamified {
+            background: white; border: 2px solid var(--text-dark); padding: 8px 18px;
+            border-radius: 15px; font-weight: 800; cursor: pointer;
+            box-shadow: 0 4px 0 var(--text-dark); transition: all 0.1s ease;
+        }
+        .btn-gamified:active { transform: translateY(4px); box-shadow: 0 0px 0 var(--text-dark); }
+        .btn-gamified:hover { transform: scale(1.05); }
+
+        .progress-container { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--deep-purple); }
+        .progress-wrapper { width: 160px; height: 16px; background: #E0E0E0; border-radius: 20px; overflow: hidden; border: 2px solid var(--deep-purple); }
+        #progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--mint-green), #2ECC71); transition: width 0.4s ease; }
+
+        main { display: flex; flex: 1; overflow: hidden; z-index: 1; position: relative; }
+        .split-pane { width: 50%; overflow-y: auto; padding: 25px 35px; scroll-behavior: smooth; }
+        .passage-side { background: rgba(255, 255, 255, 0.9); border-right: 4px dashed var(--primary-pink); }
+        .exercise-side { background: rgba(255, 255, 255, 0.75); }
+
+        .passage-title { color: var(--deep-purple); font-family: 'Nunito'; font-weight: 900; font-size: 1.8rem; margin-bottom: 5px; }
+        .passage-subtitle { font-style: italic; color: #555; margin-bottom: 25px; font-size: 1.1rem; font-weight: 600; }
+        .paragraph-block { margin-bottom: 35px; background: white; padding: 20px; border-radius: 18px; border: 2px solid #E2E8F0; box-shadow: 0 4px 0 #E2E8F0; position: relative; }
+        .paragraph-tag { position: absolute; top: -12px; left: 15px; background: var(--deep-purple); color: white; padding: 2px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; }
+        .paragraph-text { line-height: 1.8; font-size: 1.1rem; color: var(--text-dark); text-align: justify; }
+        
+        /* Hiệu ứng gạch chân ẩn - Chỉ hiện khi click định vị */
+        ::selection { background: #FFC0CB !important; color: #000; }
+        .user-highlight { background: #FFC0CB !important; border-radius: 3px; }
+        
+        .evidence-mark { border-bottom: 3px dashed transparent; transition: all 0.3s ease; }
+        .evidence-mark.active-evidence { border-bottom: 3px dashed #FF69B4 !important; background-color: #FFF0F5 !important; font-weight: 600; }
+
+        .btn-translate { background: var(--soft-yellow); border: 2px solid #D6A232; padding: 6px 14px; border-radius: 12px; font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 12px; box-shadow: 0 3px 0 #D6A232; }
+        .btn-translate:active { transform: translateY(3px); box-shadow: 0 0px 0 #D6A232; }
+        .translation-box { display: none; background: #FFFDF3; padding: 15px; border-left: 5px solid var(--soft-yellow); margin-top: 12px; font-style: italic; border-radius: 8px; color: #444; line-height: 1.7; }
+
+        .section-header { background: var(--deep-purple); color: white; padding: 10px 20px; border-radius: 12px; font-family: 'Nunito'; font-weight: 800; margin-top: 30px; margin-bottom: 15px; display: inline-block; }
+        .question-card { background: white; border-radius: 20px; padding: 22px; margin-bottom: 25px; border: 3px solid #E2E8F0; box-shadow: 0 6px 0 #E2E8F0; transition: transform 0.2s; position: relative; }
+        .question-card:hover { transform: translateY(-3px); }
+        .question-text { font-size: 1.1rem; font-weight: 700; color: var(--text-dark); margin-top: 0; margin-bottom: 15px; line-height: 1.5; }
+
+        select.custom-select { width: 100%; padding: 12px; border-radius: 14px; border: 3px solid var(--deep-purple); font-weight: 700; font-size: 1rem; color: var(--text-dark); cursor: pointer; box-shadow: 0 4px 0 var(--deep-purple); outline: none; background-color: white; }
+        input.gap-fill { border: 3px solid var(--deep-purple); border-radius: 12px; padding: 8px 15px; font-size: 1.05rem; font-weight: 700; width: 190px; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.08); text-align: center; margin: 0 5px; }
+
+        .option-btn.correct, select.custom-select.correct, input.gap-fill.correct { background: #D4EDDA !important; color: #155724 !important; border-color: var(--correct-green) !important; box-shadow: 0 4px 0 #00A854 !important; }
+        .option-btn.wrong, select.custom-select.wrong, input.gap-fill.wrong { background: #F8D7DA !important; color: #721C24 !important; border-color: var(--wrong-red) !important; box-shadow: 0 4px 0 #D63031 !important; animation: shake 0.4s ease; }
+
+        .explanation-block { display: none; margin-top: 20px; padding: 18px; background: #F3EAFE; border-radius: 16px; border: 2px dashed var(--deep-purple); animation: fadeIn 0.4s ease; }
+        .explanation-block h4 { color: var(--deep-purple); margin: 0 0 10px 0; font-family: 'Nunito'; font-weight: 800; display: flex; align-items: center; justify-content: space-between; }
+        .btn-locate { background: var(--deep-purple); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 3px 0 #6C3FB0; }
+
+        .expl-section { margin-bottom: 8px; font-size: 0.95rem; line-height: 1.5; color: #333; }
+        .expl-section strong { color: var(--deep-purple); }
+
+        .glossary-container { margin-top: 40px; background: white; padding: 25px; border-radius: 20px; border: 3px solid var(--primary-pink); box-shadow: 0 6px 0 var(--primary-pink); }
+        .glossary-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .glossary-table th { background: var(--deep-purple); color: white; padding: 14px; font-family: 'Nunito'; font-weight: 800; font-size: 1rem; }
+        .glossary-table td { padding: 12px; border-bottom: 1px solid #E2E8F0; font-size: 0.95rem; font-weight: 600; color: #4A5568; line-height: 1.5; }
+
+        #summary-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
+        .modal-content { background: white; padding: 45px; border-radius: 35px; text-align: center; max-width: 520px; width: 90%; border: 4px solid var(--deep-purple); box-shadow: 0 12px 0 var(--deep-purple); }
+        .score-circle { width: 140px; height: 140px; border-radius: 50%; background: var(--primary-pink); display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 25px auto; border: 6px solid var(--deep-purple); }
+        .score-circle .val { font-size: 2.8rem; font-weight: 900; color: var(--deep-purple); }
+
+        @media (max-width: 900px) {
+            main { flex-direction: column; }
+            .split-pane { width: 100%; height: 50%; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="brand-info">
+        <span>Giáo viên tạo: Ms Lê Hằng English</span>
+        <h1>IELTS READING MOCK TEST</h1>
+    </div>
+    <div class="progress-container">
+        <span>Tiến độ:</span>
+        <div class="progress-wrapper"><div id="progress-fill"></div></div>
+    </div>
+    <div class="timer-container">
+        <i class="fa-solid fa-stopwatch" style="color: var(--deep-purple); font-size: 1.3rem;"></i>
+        <div id="timer">25:00</div>
+        <button class="btn-gamified" id="btn-timer-toggle" style="background: var(--soft-yellow); border-color: #D6A232; box-shadow: 0 3px 0 #D6A232;">BẮT ĐẦU TÍNH GIỜ LÀM BÀI</button>
+    </div>
+    <button class="btn-gamified" style="background: var(--mint-green); color: white;" onclick="submitExam()">NỘP BÀI 🎉</button>
+</header>
+
+<main>
+    <div class="split-pane passage-side">
+        <div class="passage-title">SEAWEED</div>
+        <div class="passage-subtitle">An ancient resource supporting global industries and futures</div>
+
+        <div class="paragraph-block">
+            <div class="paragraph-tag">Paragraph 1</div>
+            <div class="paragraph-text">
+                Seaweed, a common plant that grows in the sea, has been an important food, fuel, and fertilizer since prehistoric times. <span id="ev-1" class="evidence-mark">For example, it has supplemented the diet of sheep in the Orkneys, islands off the coast of Scotland, since Neolithic times, roughly 5000 years ago.</span> <span id="ev-2" class="evidence-mark">In the early part of the 8th century in Japan, seaweed was already such a key part of people’s regular diet that legislation was introduced giving people the right to pay their taxes to the Emperor in the form of seaweed.</span>
+            </div>
+            <button class="btn-translate" onclick="toggleTranslation('trans-1')">BẢN DỊCH ĐẦY ĐỦ 🌟</button>
+            <div id="trans-1" class="translation-box">
+                Tảo biển, một loại thực vật phổ biến mọc ở biển, đã là một nguồn thực phẩm, nhiên liệu và phân bón quan trọng từ thời tiền sử. Ví dụ, nó đã bổ sung vào chế độ ăn của cừu ở Orkneys, các hòn đảo ngoài khơi bờ biển Scotland, kể từ thời đồ đá mới, khoảng 5000 năm trước. Vào đầu thế kỷ thứ 8 ở Nhật Bản, tảo biển đã là một phần quan trọng trong chế độ ăn thường ngày của người dân đến mức luật pháp đã được ban hành cho phép người dân nộp thuế cho Thiên hoàng dưới hình thức tảo biển.
+            </div>
+        </div>
+
+        <div class="paragraph-block">
+            <div class="paragraph-tag">Paragraph 2</div>
+            <div class="paragraph-text">
+                The oldest evidence of seaweed use was found in South America, dating from 12,500 years ago. The remains of red seaweed mixed with a medicinal herb were discovered on the floor of a medicine hut at Monte Verde, Chile, one of the oldest human habitation sites in the Americas. <span id="ev-3" class="evidence-mark">The Monte Verde findings led to a re-evaluation of the importance of plants to the communities of that region. It was previously believed that their diet was predominantly meat-based, and therefore reliant on the hunting skills of men. However, these findings suggest that women, known to be responsible for the gathering of plants such as seaweed, also played an important part in the provision of food.</span>
+            </div>
+            <button class="btn-translate" onclick="toggleTranslation('trans-2')">BẢN DỊCH ĐẦY ĐỦ 🌟</button>
+            <div id="trans-2" class="translation-box">
+                Bằng chứng lâu đời nhất về việc sử dụng tảo biển được tìm thấy ở Nam Mỹ, có niên đại từ 12,500 năm trước. Di tích của tảo biển đỏ trộn với một loại thảo dược y học được phát hiện trên sàn của một túp lều thuốc tại Monte Verde, Chile, một trong những nơi cư trú lâu đời nhất của con người ở châu Mỹ. Phát hiện ở Monte Verde đã dẫn đến việc đánh giá lại tầm quan trọng của thực vật đối với các cộng đồng trong khu vực đó. Trước đây người ta tin rằng chế độ ăn của họ chủ yếu là thịt, và do đó phụ thuộc vào kỹ năng săn bắn của đàn ông. Tuy nhiên, những phát hiện này gợi ý rằng phụ nữ, những người được biết là chịu trách nhiệm thu thập các loại thực vật như tảo biển, cũng đóng một vai trò quan trọng trong việc cung cấp thực phẩm.
+            </div>
+        </div>
+
+        <div class="paragraph-block">
+            <div class="paragraph-tag">Paragraph 3</div>
+            <div class="paragraph-text">
+                The first recorded commercial use of seaweed in Europe was in the 17th century in France and Norway. Coastal populations, mainly farmers, gathered and burnt seaweed to produce potash, a substance which is used in the production of glass and soap. <span id="ev-4" class="evidence-mark">In 1800, Norway exported 1500 tonnes of potash.</span>
+            </div>
+            <button class="btn-translate" onclick="toggleTranslation('trans-3')">BẢN DỊCH ĐẦY ĐỦ 🌟</button>
+            <div id="trans-3" class="translation-box">
+                Việc sử dụng thương mại tảo biển được ghi nhận đầu tiên ở châu Âu là vào thế kỷ 17 ở Pháp và Na Uy. Dân cư vùng ven biển, chủ yếu là nông dân, đã thu gom và đốt tảo biển để sản xuất potash (tro tạt), một chất được sử dụng trong sản xuất thủy tinh và xà phòng. Vào năm 1800, Na Uy đã xuất khẩu 1500 tấn potash.
+            </div>
+        </div>
+
+        <div class="paragraph-block">
+            <div class="paragraph-tag">Paragraph 4</div>
+            <div class="paragraph-text">
+                Simple seaweed cultivation techniques were first developed in Japan in the mid-17th century and became increasingly popular over the next three centuries. <span id="ev-6" class="evidence-mark">In 1948, however, a series of typhoons combined with increased pollution in coastal waters led to a total collapse in Japanese production of nori</span>, the type of seaweed used to make sushi. And because almost nothing was known about its life cycle, no one could figure out how to grow new plants from scratch to repopulate the depleted seaweed beds. The country’s nori industry ground to a halt, and many farmers lost their livelihoods. It was a British scientist, Dr. Kathleen Drew-Baker, who was credited with saving Japan’s seaweed farming industry. Based at Manchester University in the 1940s, she was studying <span id="ev-7" class="evidence-mark">a seaweed called laver, which is the Welsh equivalent of nori.</span> In 1949, she published a paper outlining her discovery that certain tiny algae were actually baby seaweed, rather than an entirely separate species, as had previously been thought. After reading her research, Japanese scientists quickly developed methods for seeding these tiny algae artificially so that new plants could be grown. This made the mass production of nori possible. <span id="ev-5" class="evidence-mark">Although hardly anyone has heard of Dr Drew-Baker in the UK, she is known as the ‘Mother of the Sea’ in Japan, and a statue of her can be found in the Japanese city of Osaka.</span>
+            </div>
+            <button class="btn-translate" onclick="toggleTranslation('trans-4')">BẢN DỊCH ĐẦY ĐỦ 🌟</button>
+            <div id="trans-4" class="translation-box">
+                Các kỹ thuật canh tác tảo biển đơn giản lần đầu tiên được phát triển ở Nhật Bản vào giữa thế kỷ 17 và ngày càng trở nên phổ biến trong ba thế kỷ tiếp theo. Tuy nhiên, vào năm 1948, một loạt các trận bão kết hợp với ô nhiễm gia tăng ở vùng nước ven bờ đã dẫn đến sự sụp đổ hoàn toàn trong sản xuất nori của Nhật Bản. Chính một nhà khoa học người Anh, Tiến sĩ Kathleen Drew-Baker, là người đã có công cứu vãn ngành trồng tảo biển của Nhật Bản khi nghiên cứu loại tảo tên là laver (tương đương nori). Mặc dù hầu như không ai nghe nói về Tiến sĩ Drew-Baker ở Anh, cô lại được biết đến là 'Mẹ của Biển cả' ở Nhật Bản.
+            </div>
+        </div>
+
+        <div class="paragraph-block">
+            <div class="paragraph-tag">Paragraph 5</div>
+            <div class="paragraph-text">
+                In the United States, Professor Charles Yarish of the University of Connecticut should probably be called the ‘Father of the Sea’ for his work on <span id="ev-8" class="evidence-mark">kelp, a large brown seaweed.</span> The renowned scientist, who has been studying the biology of seaweed since the early 1970s, recently turned his attention to the development of revolutionary techniques for the harvesting of this species. <span id="ev-9" class="evidence-mark">Yarish has helped make it an economically viable crop for the New England fishermen whose livelihoods were threatened by a combination of overfishing, pollution, and warming waters.</span>
+            </div>
+            <button class="btn-translate" onclick="toggleTranslation('trans-5')">BẢN DỊCH ĐẦY ĐỦ 🌟</button>
+            <div id="trans-5" class="translation-box">
+                Ở Hoa Kỳ, Giáo sư Charles Yarish thuộc Đại học Connecticut có lẽ nên được gọi là 'Cha đẻ của Biển cả' vì công trình nghiên cứu của ông về tảo bẹ (kelp), một loại tảo biển màu nâu lớn. Yarish đã giúp biến nó thành một loại cây trồng có tính khả thi về kinh tế cho các ngư dân New England, những người mà sinh kế bị đe dọa.
+            </div>
+        </div>
+
+        <div class="paragraph-block">
+            <div class="paragraph-tag">Paragraph 6 - 8</div>
+            <div class="paragraph-text">
+                As the world population grows and the climate changes, there is increased interest from businesses and development organizations in the use of seaweed for food and energy. Seaweed, which can grow rapidly and efficiently, provides plant-based proteins, and could also be used as a source of biofuels to replace fossil fuels. <span id="ev-10" class="evidence-mark">Its ability to absorb a number of environmentally unfriendly chemicals discharged by farms, factories and wastewater treatment plants also makes it valuable as a means of reducing pollution.</span>
+                <br><br>
+                Seaweed cultivation in Asia has grown from the late 1950s into an industry offering sustainable employment in developing and emerging economies in many countries, notably Indonesia and China. However, seaweed farming is not very well developed in Europe and the industry still relies on the harvesting, either manually or mechanically, of wild seaweed. The main constraints on the development of seaweed farming in Europe have been the <span id="ev-11" class="evidence-mark">lack of markets and the relative expense of European production</span> compared to Asian production.
+                <br><br>
+                A 2016 report from the World Bank estimates that annual global seaweed production could reach 500 million dry tons by 2050 if the industry is able to increase its harvest by 14% per year. Hitting that 500 million mark would boost the world’s food supply by 10% from the current level, generating 50 million <span id="ev-12" class="evidence-mark">jobs</span> in the process. As a biofuel for <span id="ev-13" class="evidence-mark">vehicles</span>, it could also replace about 1.5% of the fossil fuels used today.
+            </div>
+            <button class="btn-translate" onclick="toggleTranslation('trans-6')">BẢN DỊCH ĐẦY ĐỦ 🌟</button>
+            <div id="trans-6" class="translation-box">
+                Khả năng hấp thụ một số hóa chất độc hại với môi trường thải ra từ các trang trại, nhà máy giúp giảm ô nhiễm. Ở châu Âu, rào cản chính là thiếu thị trường (lack of markets) và chi phí tốn kém. Báo cáo của Ngân hàng Thế giới ước tính nó tạo ra 50 triệu việc làm (jobs) và làm nhiên liệu sinh học thay thế cho các phương tiện giao thông (vehicles).
+            </div>
+        </div>
+
+        <div class="glossary-container">
+            <h3 style="color: var(--deep-purple); font-family: 'Nunito'; margin-top:0;"><i class="fa-solid fa-book-open"></i> 📚 GLOSSARY & SYNONYMS</h3>
+            <table class="glossary-table">
+                <thead>
+                    <tr><th>Từ vựng (B2-C2)</th><th>Nghĩa & Từ đồng nghĩa trong bài</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Supplement</strong> (v)</td><td>Bổ sung thêm vào (~ supplemented the diet)</td></tr>
+                    <tr><td><strong>Predominantly</strong> (adv)</td><td>Chủ yếu là, phần lớn là (~ mainly)</td></tr>
+                    <tr><td><strong>Collapse</strong> (n/v)</td><td>Sự sụp đổ, ngừng hoạt động hoàn toàn (~ ground to a halt)</td></tr>
+                    <tr><td><strong>Livelihood</strong> (n)</td><td>Kế sinh nhai, cách kiếm sống</td></tr>
+                    <tr><td><strong>Viable</strong> (adj)</td><td>Có khả năng thành công, khả thi về kinh tế (~ successful crop)</td></tr>
+                    <tr><td><strong>Constraints</strong> (n)</td><td>Rào cản, sự hạn chế, thắt chặt (~ shortage / lack)</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="split-pane exercise-side">
+        
+        <div class="section-header">Questions 1–5: True / False / Not Given</div>
+        
+        <div class="question-card" data-qtype="select" data-ans="TRUE">
+            <div class="question-text">1. Seaweed has been used to feed animals on some Scottish islands for thousands of years.</div>
+            <select class="custom-select" onchange="checkSelectQuestion(this)">
+                <option value="">-- Click chọn TRUE/FALSE/NOT GIVEN --</option>
+                <option value="TRUE">TRUE</option>
+                <option value="FALSE">FALSE</option>
+                <option value="NOT GIVEN">NOT GIVEN</option>
+            </select>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-1')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> TRUE</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "...it has supplemented the diet of sheep in the Orkneys, islands off the coast of Scotland, since Neolithic times, roughly 5000 years ago."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> Nó đã bổ sung vào chế độ ăn của cừu (động vật - feed animals) ở Orkneys, các đảo thuộc Scotland từ cách đây 5000 năm (hàng ngàn năm).</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> feed animals = supplemented the diet of sheep | thousands of years = roughly 5000 years ago</div>
+            </div>
+        </div>
+
+        <div class="question-card" data-qtype="select" data-ans="FALSE">
+            <div class="question-text">2. In the 8th century in Japan, eating seaweed was reserved for special occasions.</div>
+            <select class="custom-select" onchange="checkSelectQuestion(this)">
+                <option value="">-- Click chọn TRUE/FALSE/NOT GIVEN --</option>
+                <option value="TRUE">TRUE</option>
+                <option value="FALSE">FALSE</option>
+                <option value="NOT GIVEN">NOT GIVEN</option>
+            </select>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-2')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> FALSE</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "...seaweed was already such a key part of people’s regular diet that legislation was introduced..."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> Tảo biển đã là một phần cốt lõi trong chế độ ăn thường ngày (regular diet) của người dân chứ không phải dành cho dịp đặc biệt.</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> Ngược nghĩa: regular diet &lt;&gt; reserved for special occasions</div>
+            </div>
+        </div>
+
+        <div class="question-card" data-qtype="select" data-ans="TRUE">
+            <div class="question-text">3. The findings at Monte Verde revealed new information about the significance of women’s roles in prehistoric times.</div>
+            <select class="custom-select" onchange="checkSelectQuestion(this)">
+                <option value="">-- Click chọn TRUE/FALSE/NOT GIVEN --</option>
+                <option value="TRUE">TRUE</option>
+                <option value="FALSE">FALSE</option>
+                <option value="NOT GIVEN">NOT GIVEN</option>
+            </select>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-3')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> TRUE</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "...these findings suggest that women, known to be responsible for the gathering of plants such as seaweed, also played an important part in the provision of food."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> Các phát hiện này chỉ ra phụ nữ (women), vốn chịu trách nhiệm hái lượm thực vật, cũng đóng vai trò rất quan trọng trong cung cấp đồ ăn cho cả bộ tộc.</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> significance of women’s roles = women... played an important part in the provision of food</div>
+            </div>
+        </div>
+
+        <div class="question-card" data-qtype="select" data-ans="NOT GIVEN">
+            <div class="question-text">4. Potash was Norway’s largest export in the 1800s.</div>
+            <select class="custom-select" onchange="checkSelectQuestion(this)">
+                <option value="">-- Click chọn TRUE/FALSE/NOT GIVEN --</option>
+                <option value="TRUE">TRUE</option>
+                <option value="FALSE">FALSE</option>
+                <option value="NOT GIVEN">NOT GIVEN</option>
+            </select>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-4')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> NOT GIVEN</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "In 1800, Norway exported 1500 tonnes of potash."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> Bài chỉ nói vào năm 1800 Na Uy xuất khẩu 1500 tấn mặt hàng potash. Hoàn toàn không so sánh xem đây có phải là mặt hàng xuất khẩu lớn nhất (largest export) hay không.</div>
+            </div>
+        </div>
+
+        <div class="question-card" data-qtype="select" data-ans="TRUE">
+            <div class="question-text">5. Dr Kathleen Drew-Baker is more famous in Japan than she is in the UK.</div>
+            <select class="custom-select" onchange="checkSelectQuestion(this)">
+                <option value="">-- Click chọn TRUE/FALSE/NOT GIVEN --</option>
+                <option value="TRUE">TRUE</option>
+                <option value="FALSE">FALSE</option>
+                <option value="NOT GIVEN">NOT GIVEN</option>
+            </select>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-5')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> TRUE</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "Although hardly anyone has heard of Dr Drew-Baker in the UK, she is known as the ‘Mother of the Sea’ in Japan, and a statue of her can be found..."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> Dù hầu như chẳng ai ở Vương Quốc Anh nghe danh cô ấy, cô lại được tôn vinh là 'Mẹ biển cả' ở Nhật Bản và có cả tượng đài đúc riêng.</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> more famous in Japan than UK = hardly anyone has heard of her in UK, known as Mother of Sea in Japan</div>
+            </div>
+        </div>
+
+
+        <div class="section-header">Questions 6–13: Table Completion</div>
+        <p style="font-weight: bold; font-style: italic; color: #555;">Complete the table below. Write ONE WORD ONLY from the passage for each answer.</p>
+
+        <div class="question-card">
+            <p style="margin:0; font-weight:700; color:var(--deep-purple);">Japanese seaweed industry</p>
+            <p style="line-height:1.8; margin: 5px 0 0 0;">
+                • was destroyed by pollution and <strong>6.</strong> <input type="text" class="gap-fill" id="gap-6" placeholder="Điền 1 từ..."> in 1948. <button class="btn-gamified" style="padding:4px 10px; font-size:0.8rem;" onclick="checkSingleGap('gap-6')">Check</button>
+                <br>
+                • recovered as a result of Kathleen Drew-Baker’s research into <strong>7.</strong> <input type="text" class="gap-fill" id="gap-7" placeholder="Điền 1 từ..."> a seaweed species similar to nori. <button class="btn-gamified" style="padding:4px 10px; font-size:0.8rem;" onclick="checkSingleGap('gap-7')">Check</button>
+            </p>
+            <div class="explanation-block" id="expl-g67">
+                <h4>GIẢI THÍCH CHI TIẾT <div style="display:inline-block;"><button class="btn-locate" onclick="scrollLeftTo('ev-6')">Dẫn chứng 6</button> <button class="btn-locate" onclick="scrollLeftTo('ev-7')">Dẫn chứng 7</button></div></h4>
+                <div class="expl-section"><strong>Câu 6 ĐÁP ÁN: typhoons</strong> -> Dẫn chứng: <em>"In 1948, however, a series of typhoons combined with increased pollution..."</em> (Bão quét qua kết hợp ô nhiễm).</div>
+                <div class="expl-section"><strong>Câu 7 ĐÁP ÁN: laver</strong> -> Dẫn chứng: <em>"...she was studying a seaweed called laver, which is the Welsh equivalent of nori."</em> (Nghiên cứu loài rong laver tương tự nori).</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <p style="margin:0; font-weight:700; color:var(--deep-purple);">Seaweed farming in the USA</p>
+            <p style="line-height:1.8; margin: 5px 0 0 0;">
+                • new methods have resulted in the type of seaweed called <strong>8.</strong> <input type="text" class="gap-fill" id="gap-8" placeholder="Điền 1 từ..."> becoming a successful crop. <button class="btn-gamified" style="padding:4px 10px; font-size:0.8rem;" onclick="checkSingleGap('gap-8')">Check</button>
+                <br>
+                • has provided an alternative source of income for <strong>9.</strong> <input type="text" class="gap-fill" id="gap-9" placeholder="Điền 1 từ...">. <button class="btn-gamified" style="padding:4px 10px; font-size:0.8rem;" onclick="checkSingleGap('gap-9')">Check</button>
+            </p>
+            <div class="explanation-block" id="expl-g89">
+                <h4>GIẢI THÍCH CHI TIẾT <div style="display:inline-block;"><button class="btn-locate" onclick="scrollLeftTo('ev-8')">Dẫn chứng 8</button> <button class="btn-locate" onclick="scrollLeftTo('ev-9')">Dẫn chứng 9</button></div></h4>
+                <div class="expl-section"><strong>Câu 8 ĐÁP ÁN: kelp</strong> -> Dẫn chứng: <em>"...for his work on kelp, a large brown seaweed."</em></div>
+                <div class="expl-section"><strong>Câu 9 ĐÁP ÁN: fishermen</strong> -> Dẫn chứng: <em>"Yarish has helped make it an economically viable crop for the New England fishermen whose livelihoods were threatened..."</em> (Giúp tạo thu nhập kinh tế cho ngư dân - fishermen).</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <p style="margin:0; font-weight:700; color:var(--deep-purple);">Seaweed production in the future</p>
+            <p style="line-height:2; margin: 5px 0 0 0;">
+                • may be used to minimise the harmful effects of various <strong>10.</strong> <input type="text" class="gap-fill" id="gap-10" placeholder="Từ..."> produced by different industries. <button class="btn-gamified" style="padding:2px 8px; font-size:0.8rem;" onclick="checkSingleGap('gap-10')">Check</button>
+                <br>
+                • the cost of production and shortage of <strong>11.</strong> <input type="text" class="gap-fill" id="gap-11" placeholder="Từ..."> may be preventing growth of the industry in Europe. <button class="btn-gamified" style="padding:2px 8px; font-size:0.8rem;" onclick="checkSingleGap('gap-11')">Check</button>
+                <br>
+                • could create very large numbers of new <strong>12.</strong> <input type="text" class="gap-fill" id="gap-12" placeholder="Từ...">. <button class="btn-gamified" style="padding:2px 8px; font-size:0.8rem;" onclick="checkSingleGap('gap-12')">Check</button>
+                <br>
+                • could be used instead of oil to power a small percentage of <strong>13.</strong> <input type="text" class="gap-fill" id="gap-13" placeholder="Từ...">. <button class="btn-gamified" style="padding:2px 8px; font-size:0.8rem;" onclick="checkSingleGap('gap-13')">Check</button>
+            </p>
+            <div class="explanation-block" id="expl-g1013">
+                <h4>GIẢI THÍCH CHI TIẾT <div style="display:inline-block;"><button class="btn-locate" onclick="scrollLeftTo('ev-10')">Dẫn chứng 10</button> <button class="btn-locate" onclick="scrollLeftTo('ev-11')">Dẫn chứng 11</button> <button class="btn-locate" onclick="scrollLeftTo('ev-12')">Dẫn chứng 12</button> <button class="btn-locate" onclick="scrollLeftTo('ev-13')">Dẫn chứng 13</button></div></h4>
+                <div class="expl-section"><strong>Câu 10 ĐÁP ÁN: chemicals</strong> -> Dẫn chứng: <em>"...absorb a number of environmentally unfriendly chemicals discharged by farms, factories..."</em> (Hấp thụ hóa chất độc hại).</div>
+                <div class="expl-section"><strong>Câu 11 ĐÁP ÁN: markets</strong> -> Dẫn chứng: <em>"The main constraints... have been the lack of markets and the relative expense..."</em> (shortage of = lack of markets).</div>
+                <div class="expl-section"><strong>Câu 12 ĐÁP ÁN: jobs</strong> -> Dẫn chứng: <em>"...generating 50 million jobs in the process."</em> (Tạo ra lượng lớn việc làm - jobs).</div>
+                <div class="expl-section"><strong>Câu 13 ĐÁP ÁN: vehicles</strong> -> Dẫn chứng: <em>"As a biofuel for vehicles, it could also replace..."</em> (Cung cấp năng lượng chạy xe cộ - vehicles thay dầu).</div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<div id="summary-modal">
+    <div class="modal-content">
+        <h2>HOÀN THÀNH BÀI LÀM 🎉</h2>
+        <div class="score-circle"><span class="val" id="final-score">0/13</span></div>
+        <p id="result-text" style="font-weight:700; color:var(--text-dark); line-height:1.6;"></p>
+        <button class="btn-gamified" style="background:var(--deep-purple); color:white;" onclick="location.reload()">LÀM LẠI CÙNG MS LÊ HẰNG 🌟</button>
+    </div>
+</div>
+
+<script>
+    // WEB AUDIO API
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playAudio(type) {
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.connect(gainNode); gainNode.connect(audioCtx.destination);
+        if (type === 'success') {
+            osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.08);
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.25);
+        } else {
+            osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(110, audioCtx.currentTime + 0.25);
+            gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+        }
+    }
+
+    // TIMER
+    let timeRemaining = 25 * 60;
+    let timerInterval = null;
+    document.getElementById('btn-timer-toggle').onclick = function() {
+        if (timerInterval) {
+            clearInterval(timerInterval); timerInterval = null;
+            this.innerText = 'TIẾP TỤC LÀM BÀI';
+        } else {
+            this.innerText = 'TẠM DỪNG ⏸️';
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                let mins = Math.floor(timeRemaining / 60);
+                let secs = timeRemaining % 60;
+                document.getElementById('timer').innerText = `${mins}:${secs < 10 ? '0' + secs : secs}`;
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Đã hết giờ làm bài rồi con ơi!");
+                }
+            }, 1000);
+        }
+    };
+
+    // PROGRESS TRACKING
+    let correctCount = 0;
+    const totalQuestions = 13;
+    const answeredSet = new Set();
+
+    function updateProgress() {
+        let percent = (answeredSet.size / totalQuestions) * 100;
+        document.getElementById('progress-fill').style.width = percent + '%';
+    }
+
+    // SCROLL & HIGHLIGHT ON DEMAND (CHỈ GẠCH CHÂN KHI BẤM NÚT)
+    function scrollLeftTo(elementId) {
+        const el = document.getElementById(elementId);
+        if (el) {
+            document.querySelectorAll('.evidence-mark').forEach(item => item.classList.remove('active-evidence'));
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.classList.add('active-evidence');
+            setTimeout(() => { el.classList.remove('active-evidence'); }, 3000);
+        }
+    }
+
+    function toggleTranslation(id) {
+        const el = document.getElementById(id);
+        el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // INTERACTIVE ENGINE
+    function checkSelectQuestion(selectEl) {
+        const card = selectEl.closest('.question-card');
+        const correctAns = card.dataset.ans;
+        if (!selectEl.value || selectEl.disabled) return;
+        selectEl.disabled = true;
+
+        if (selectEl.value === correctAns) {
+            selectEl.classList.add('correct');
+            playAudio('success');
+            confetti({ particleCount: 40 });
+            correctCount++;
+        } else {
+            selectEl.classList.add('wrong');
+            playAudio('fail');
+            selectEl.value = correctAns;
+            selectEl.classList.add('correct');
+        }
+        card.querySelector('.explanation-block').style.display = 'block';
+        answeredSet.add(card.querySelector('.question-text').innerText);
+        updateProgress();
+    }
+
+    const gapAnswers = {
+        'gap-6': 'typhoons', 'gap-7': 'laver', 'gap-8': 'kelp', 'gap-9': 'fishermen',
+        'gap-10': 'chemicals', 'gap-11': 'markets', 'gap-12': 'jobs', 'gap-13': 'vehicles'
+    };
+
+    function checkSingleGap(id) {
+        const inputEl = document.getElementById(id);
+        const card = inputEl.closest('.question-card');
+        const userAns = inputEl.value.trim().toLowerCase();
+
+        if(!userAns || inputEl.disabled) return;
+        inputEl.disabled = true;
+
+        if(userAns === gapAnswers[id]) {
+            inputEl.classList.add('correct');
+            playAudio('success');
+            confetti({ particleCount: 30 });
+            correctCount++;
+        } else {
+            inputEl.classList.add('wrong');
+            playAudio('fail');
+            inputEl.value = gapAnswers[id];
+            inputEl.classList.add('correct');
+        }
+        
+        card.querySelector('.explanation-block').style.display = 'block';
+        answeredSet.add(id);
+        updateProgress();
+    }
+
+    // HIGHLIGHT AUTOMATION WHEN SELECTING TEXT
+    document.addEventListener('mouseup', function() {
+        let sel = window.getSelection();
+        if (sel.rangeCount > 0 && sel.toString().trim().length > 0) {
+            let node = document.createElement("span");
+            node.className = "user-highlight";
+            let range = sel.getRangeAt(0).cloneRange();
+            try { range.surroundContents(node); sel.removeAllRanges(); } catch(e){}
+        }
+    });
+
+    function submitExam() {
+        if(timerInterval) clearInterval(timerInterval);
+        document.getElementById('summary-modal').style.display = 'flex';
+        document.getElementById('final-score').innerText = `${correctCount}/${totalQuestions}`;
+        let txt = document.getElementById('result-text');
+        if(correctCount >= 9) {
+            txt.innerText = "Tuyệt đỉnh! Con có tư duy đọc hiểu xuất chúng chuẩn học trò cưng Ms Lê Hằng English. Cố gắng phát huy con nhé!";
+        } else {
+            txt.innerText = "Làm tốt lắm con ơi! Con hãy nhấn nút 'Định vị dẫn chứng' dưới mỗi câu để nhìn rõ vị trí đáp án và tích lũy từ vựng nha.";
+        }
+        confetti({ particleCount: 150, spread: 80 });
+    }
+</script>
+</body>
+</html>
